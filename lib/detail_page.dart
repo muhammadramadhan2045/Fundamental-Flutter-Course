@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:news_app/article.dart';
 import 'package:news_app/article_web_view.dart';
 
@@ -18,7 +19,10 @@ class DetailPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(article.urlToImage ?? ''),
+            Hero(
+              tag: article.urlToImage ?? '',
+              child: Image.network(article.urlToImage ?? ''),
+            ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
