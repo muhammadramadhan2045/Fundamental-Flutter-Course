@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:latihan_state_management/provider/bookmark_module_provider.dart';
 import 'package:latihan_state_management/widget/module_tile.dart';
+import 'package:provider/provider.dart';
 
 class ModuleList extends StatefulWidget {
-  final List<String> doneModuleList;
-  const ModuleList({super.key, required this.doneModuleList});
+  const ModuleList({
+    super.key,
+  });
 
   @override
   State<ModuleList> createState() => _ModuleListState();
@@ -28,15 +31,18 @@ class _ModuleListState extends State<ModuleList> {
     return ListView.builder(
       itemCount: _moduleList.length,
       itemBuilder: (context, index) {
-        return ModuleTile(
-          moduleName: _moduleList[index],
-          isDone: widget.doneModuleList.contains(_moduleList[index]),
-          onClick: () {
-            setState(() {
-              widget.doneModuleList.add(_moduleList[index]);
-            });
-          },
-        );
+        return Consumer<BookmarkModuleProvider>(
+            builder: (context, BookmarkModuleProvider provider, child) {
+          return ModuleTile(
+            moduleName: _moduleList[index],
+            isDone: provider.doneModuleList.contains(_moduleList[index]),
+            onClick: () {
+              provider.doneModuleList.contains(_moduleList[index])
+                  ? provider.removeDoneModule(_moduleList[index])
+                  : provider.addDoneModule(_moduleList[index]);
+            },
+          );
+        });
       },
     );
   }

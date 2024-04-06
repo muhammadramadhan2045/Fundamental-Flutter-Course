@@ -28,18 +28,14 @@ class _ModulePageState extends State<ModulePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => BookmarkPage(
-                    doneModuleList: doneModuleList,
-                  ),
+                  builder: (context) => const BookmarkPage(),
                 ),
               );
             },
           ),
         ],
       ),
-      body: ModuleList(
-        doneModuleList: doneModuleList,
-      ),
+      body: ModuleList(),
     );
   }
 }

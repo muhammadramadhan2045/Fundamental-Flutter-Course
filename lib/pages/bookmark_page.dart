@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:latihan_state_management/provider/bookmark_module_provider.dart';
+import 'package:provider/provider.dart';
 
 class BookmarkPage extends StatefulWidget {
-  final List<String> doneModuleList;
-  const BookmarkPage({super.key, required this.doneModuleList});
+  const BookmarkPage({
+    super.key,
+  });
 
   @override
   State<BookmarkPage> createState() => _BookmarkPageState();
@@ -11,16 +14,18 @@ class BookmarkPage extends StatefulWidget {
 class _BookmarkPageState extends State<BookmarkPage> {
   @override
   Widget build(BuildContext context) {
+    final doneModuleList =
+        Provider.of<BookmarkModuleProvider>(context).doneModuleList;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bookmark Page'),
       ),
-      body: widget.doneModuleList.isNotEmpty
+      body: doneModuleList.isNotEmpty
           ? ListView.builder(
-              itemCount: widget.doneModuleList.length,
+              itemCount: doneModuleList.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(widget.doneModuleList[index]),
+                  title: Text(doneModuleList[index]),
                 );
               },
             )

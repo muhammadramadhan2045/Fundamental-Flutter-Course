@@ -15,12 +15,10 @@ class ModuleTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(moduleName),
-      trailing: isDone
-          ? const Icon(Icons.check_circle, color: Colors.green)
-          : ElevatedButton(
-              onPressed: () => onClick(),
-              child: const Text('Done'),
-            ),
+      trailing: ElevatedButton(
+        onPressed: () => onClick(),
+        child: isDone ? const Text('Selesai') : const Text('Belum Selesai'),
+      ),
     );
   }
 }
