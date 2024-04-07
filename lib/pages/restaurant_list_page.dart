@@ -1,18 +1,15 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/model/restaurant.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/data/model/restaurant.dart';
+import 'package:restaurant_app/data/result_state.dart';
 import 'package:restaurant_app/pages/restaurant_detail_page.dart';
+import 'package:restaurant_app/provider/restaurant_provider.dart';
+import 'package:restaurant_app/common/global.dart' as global;
 
-class RestaurantListPage extends StatefulWidget {
+class RestaurantListPage extends StatelessWidget {
   static const String routeName = '/restaurant_list';
   const RestaurantListPage({super.key});
 
-  @override
-  State<RestaurantListPage> createState() => _RestaurantListPageState();
-}
-
-class _RestaurantListPageState extends State<RestaurantListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,49 +18,63 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: FutureBuilder(
-        future: DefaultAssetBundle.of(context)
-            .loadString('assets/local_restaurant.json'),
-        builder: (context, snapshot) {
-          List<Restaurants> restaurants = parseRestaurants(snapshot.data ?? '');
-          return snapshot.hasData
-              ? ListView.builder(
-                  itemCount: restaurants.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: Hero(
-                        tag: restaurants[index].id ?? '',
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.network(
-                            restaurants[index].pictureId ??
-                                'https://picsum.photos/200/300',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
+      body: Consumer<RestaurantProvider>(
+        builder: (context, state, _) {
+          if (state.state == ResultState.loading) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.black,
+              ),
+            );
+          } else {
+            if (state.state == ResultState.hasData) {
+              final List<Restaurants> restaurants =
+                  state.result.restaurants ?? [];
+              return ListView.builder(
+                itemCount: restaurants.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: Hero(
+                      tag: restaurants[index].id ?? '',
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.network(
+                          global.imageSmall +
+                              (restaurants[index].pictureId ?? ''),
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      title: Text(restaurants[index].name ?? ''),
-                      subtitle: Text(restaurants[index].city ?? ''),
-                      onTap: () => Navigator.of(context).pushNamed(
-                        RestaurantDetailPage.routeName,
-                        arguments: restaurants[index],
-                      ),
-                    );
-                  },
-                )
-              : const Center(
-                  child: CircularProgressIndicator(),
-                );
+                    ),
+                    title: Text(restaurants[index].name ?? ''),
+                    subtitle: Text(restaurants[index].city ?? ''),
+                    onTap: () => Navigator.of(context).pushNamed(
+                      RestaurantDetailPage.routeName,
+                      arguments: restaurants[index].id ?? '',
+                    ),
+                  );
+                },
+              );
+            } else if (state.state == ResultState.error) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error),
+                    const SizedBox(height: 8),
+                    Text(state.message),
+                  ],
+                ),
+              );
+            } else {
+              return const Center(
+                child: Text('No Data'),
+              );
+            }
+          }
         },
       ),
     );
-  }
-
-  List<Restaurants> parseRestaurants(String jsonString) {
-    final Map<String, dynamic> jsonData = json.decode(jsonString);
-    final List<dynamic> restaurantList = jsonData['restaurants'] ?? [];
-    return restaurantList.map((item) => Restaurants.fromJson(item)).toList();
   }
 }

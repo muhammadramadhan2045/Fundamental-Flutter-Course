@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/model/restaurant.dart';
+import 'package:restaurant_app/data/model/detail_restaurant.dart';
+import 'package:restaurant_app/common/global.dart' as global;
 import 'package:restaurant_app/widget/list_menu.dart';
 
 class DetailContent extends StatelessWidget {
-  const DetailContent({
-    super.key,
-    required this.restaurant,
-    required this.allMenu,
-  });
+  const DetailContent(
+      {super.key, required this.restaurant, required this.allMenu});
 
   final Restaurants restaurant;
   final List allMenu;
@@ -22,7 +20,7 @@ class DetailContent extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: Image.network(
-              restaurant.pictureId ?? 'https://picsum.photos/200/300',
+              global.imageMedium + (restaurant.pictureId ?? ''),
             ),
           ),
         ),

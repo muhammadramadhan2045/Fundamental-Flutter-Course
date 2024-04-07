@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/model/restaurant.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/pages/restaurant_detail_page.dart';
 import 'package:restaurant_app/pages/restaurant_list_page.dart';
-import 'package:restaurant_app/style/style.dart';
+import 'package:restaurant_app/provider/restaurant_provider.dart';
+import 'package:restaurant_app/common/style.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,28 +15,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Restaurant App',
-      theme: ThemeData(
-        colorScheme: Theme.of(context).colorScheme.copyWith(
-              primary: primaryColor,
-              secondary: secondaryColor,
-              onPrimary: Colors.black,
-            ),
-        textTheme: myTextTheme,
-        appBarTheme: const AppBarTheme(elevation: 0),
-        useMaterial3: true,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return ChangeNotifierProvider<RestaurantProvider>(
+      create: (context) => RestaurantProvider(apiService: ApiService()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Restaurant App',
+        theme: ThemeData(
+          colorScheme: Theme.of(context).colorScheme.copyWith(
+                primary: primaryColor,
+                secondary: secondaryColor,
+                onPrimary: Colors.black,
+              ),
+          textTheme: myTextTheme,
+          appBarTheme: const AppBarTheme(elevation: 0),
+          useMaterial3: true,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        initialRoute: RestaurantListPage.routeName,
+        routes: {
+          RestaurantListPage.routeName: (context) => const RestaurantListPage(),
+          RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
+                restaurant:
+                    ModalRoute.of(context)!.settings.arguments as String,
+              ),
+        },
       ),
-      initialRoute: RestaurantListPage.routeName,
-      routes: {
-        RestaurantListPage.routeName: (context) => const RestaurantListPage(),
-        RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
-              restaurant:
-                  ModalRoute.of(context)!.settings.arguments as Restaurants,
-            ),
-      },
     );
   }
 }
