@@ -33,7 +33,7 @@ class DetailRestaurantProvider extends ChangeNotifier {
       }
     } catch (e) {
       _state = ResultState.error;
-      _message = 'Error: $e';
+      _message = '$e';
       notifyListeners();
     }
   }
