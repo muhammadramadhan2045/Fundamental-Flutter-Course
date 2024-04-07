@@ -1,7 +1,7 @@
 class ResaturantDetail {
   bool? error;
   String? message;
-  Restaurants? restaurant;
+  Restaurantss? restaurant;
 
   ResaturantDetail({this.error, this.message, this.restaurant});
 
@@ -9,7 +9,7 @@ class ResaturantDetail {
     error = json['error'];
     message = json['message'];
     restaurant = json['restaurant'] != null
-        ? Restaurants.fromJson(json['restaurant'])
+        ? Restaurantss.fromJson(json['restaurant'])
         : null;
   }
 
@@ -24,7 +24,7 @@ class ResaturantDetail {
   }
 }
 
-class Restaurants {
+class Restaurantss {
   String? id;
   String? name;
   String? description;
@@ -36,7 +36,7 @@ class Restaurants {
   num? rating;
   List<CustomerReviews>? customerReviews;
 
-  Restaurants(
+  Restaurantss(
       {this.id,
       this.name,
       this.description,
@@ -48,7 +48,7 @@ class Restaurants {
       this.rating,
       this.customerReviews});
 
-  Restaurants.fromJson(Map<String, dynamic> json) {
+  Restaurantss.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     description = json['description'];

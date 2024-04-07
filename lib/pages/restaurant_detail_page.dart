@@ -40,7 +40,7 @@ class RestaurantDetailPage extends StatelessWidget {
                       ...state.result.restaurant?.menus?.drinks ?? [],
                     ];
                     return DetailContent(
-                      restaurant: state.result.restaurant ?? Restaurants(),
+                      restaurant: state.result.restaurant ?? Restaurantss(),
                       allMenu: allMenu,
                     );
                   } else {

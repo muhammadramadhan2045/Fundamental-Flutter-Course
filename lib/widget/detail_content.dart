@@ -7,7 +7,7 @@ class DetailContent extends StatelessWidget {
   const DetailContent(
       {super.key, required this.restaurant, required this.allMenu});
 
-  final Restaurants restaurant;
+  final Restaurantss restaurant;
   final List allMenu;
 
   @override

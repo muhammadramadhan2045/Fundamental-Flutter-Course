@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/result_state.dart';
-import 'package:restaurant_app/pages/restaurant_detail_page.dart';
+import 'package:restaurant_app/pages/restaurant_search_page.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
-import 'package:restaurant_app/common/global.dart' as global;
+
+import '../widget/list_restaurant_tile.dart';
 
 class RestaurantListPage extends StatelessWidget {
   static const String routeName = '/restaurant_list';
@@ -15,8 +16,15 @@ class RestaurantListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Restaurant App'),
-        centerTitle: true,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              Navigator.of(context).pushNamed(RestaurantSearchPage.routeName);
+            },
+          ),
+        ],
       ),
       body: Consumer<RestaurantProvider>(
         builder: (context, state, _) {
@@ -33,27 +41,7 @@ class RestaurantListPage extends StatelessWidget {
               return ListView.builder(
                 itemCount: restaurants.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: Hero(
-                      tag: restaurants[index].id ?? '',
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.network(
-                          global.imageSmall +
-                              (restaurants[index].pictureId ?? ''),
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    title: Text(restaurants[index].name ?? ''),
-                    subtitle: Text(restaurants[index].city ?? ''),
-                    onTap: () => Navigator.of(context).pushNamed(
-                      RestaurantDetailPage.routeName,
-                      arguments: restaurants[index].id ?? '',
-                    ),
-                  );
+                  return ListRestaurantTile(restaurants: restaurants[index]);
                 },
               );
             } else if (state.state == ResultState.error) {
