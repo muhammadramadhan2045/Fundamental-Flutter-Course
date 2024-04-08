@@ -1,0 +1,106 @@
+import 'package:flutter/material.dart';
+import 'package:simple_notification_app/ui/detail_page.dart';
+
+import 'package:simple_notification_app/main.dart';
+import 'package:simple_notification_app/utils/notification_helper.dart';
+import 'package:simple_notification_app/widget/custom_button.dart';
+
+class HomePage extends StatefulWidget {
+  static const String routeName = '/home';
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationHelper.configureSelectNotificationSubject(
+      context,
+      DetailPage.routeName,
+    );
+    _notificationHelper.configureDidReceivedLocalNotificationSubject(
+      context,
+      DetailPage.routeName,
+    );
+  }
+
+  @override
+  void dispose() {
+    selectNotificatiionSubject.close();
+    didReceiveLocalNotificationSubject.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Simple Notification App'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              CustomButton(
+                text: 'Show plain notif with payload',
+                onPressed: () async {
+                  await _notificationHelper
+                      .showNotification(flutterLocalNotificationsPlugin);
+                },
+              ),
+              const SizedBox(height: 10),
+              CustomButton(
+                text: 'Show plain notification that has no body with payload',
+                onPressed: () async {
+                  await _notificationHelper.showNotificationWithNoBody(
+                      flutterLocalNotificationsPlugin);
+                },
+              ),
+              const SizedBox(height: 10),
+              CustomButton(
+                text: 'Show grouped notifications [Android]',
+                onPressed: () async {
+                  await _notificationHelper.showGroupedNotifications(
+                      flutterLocalNotificationsPlugin);
+                },
+              ),
+              const SizedBox(height: 10),
+              CustomButton(
+                text:
+                    'Show progress notification - updates every second [Android]',
+                onPressed: () async {
+                  await _notificationHelper.showProgressNotification(
+                      flutterLocalNotificationsPlugin);
+                },
+              ),
+              const SizedBox(height: 10),
+              CustomButton(
+                text: 'Show big picture notification [Android]',
+                onPressed: () async {
+                  await _notificationHelper.showBigPictureNotification(
+                      flutterLocalNotificationsPlugin);
+                },
+              ),
+              const SizedBox(height: 10),
+              CustomButton(
+                text: 'Show notification with attachment [iOS]',
+                onPressed: () async {
+                  await _notificationHelper.showNotificationWithAttachment(
+                    flutterLocalNotificationsPlugin,
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
