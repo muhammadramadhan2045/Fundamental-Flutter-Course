@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/data/api/api_service.dart';
-import 'package:news_app/data/result_state.dart';
+import 'package:news_app/data/result_state.dart'; 
 
 import '../data/model/article.dart';
 
