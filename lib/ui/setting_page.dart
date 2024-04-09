@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/provider/preferences_provider.dart';
 import 'package:news_app/provider/scheduling_provider.dart';
-import 'package:news_app/widget/custom_dialog.dart';
 import 'package:provider/provider.dart';
 
 class SettingPage extends StatelessWidget {
@@ -18,33 +18,38 @@ class SettingPage extends StatelessWidget {
   }
 
   Widget _buildList(BuildContext context) {
-    return ListView(
-      children: [
-        Material(
-          child: ListTile(
-            title: const Text('Dark Mode'),
-            trailing: Switch(
-              value: false,
-              onChanged: (value) => customDialog(context),
+    return Consumer<PreferencesProvider>(
+      builder: (_, provider, __) {
+        return ListView(
+          children: [
+            Material(
+              child: ListTile(
+                title: const Text('Dark Mode'),
+                trailing: Switch(
+                  value: provider.isDarkTheme,
+                  onChanged: (value) => {provider.setDarkTheme(value)},
+                ),
+              ),
             ),
-          ),
-        ),
-        Material(
-          child: ListTile(
-            title: const Text('Notification News'),
-            trailing: Consumer<SchedullingProvider>(
-              builder: (context, scheduled, _) {
-                return Switch.adaptive(
-                  value: scheduled.isScheduled,
-                  onChanged: (value) {
-                    scheduled.scheduledNews(value);
+            Material(
+              child: ListTile(
+                title: const Text('Notification News'),
+                trailing: Consumer<SchedullingProvider>(
+                  builder: (context, scheduled, _) {
+                    return Switch.adaptive(
+                      value: provider.isDailyNewsEnabled,
+                      onChanged: (value) {
+                        scheduled.scheduledNews(value);
+                        provider.setDailyNews(value);
+                      },
+                    );
                   },
-                );
-              },
-            ),
-          ),
-        )
-      ],
+                ),
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }

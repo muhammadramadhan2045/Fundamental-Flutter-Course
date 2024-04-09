@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/common/navigation.dart';
-import 'package:news_app/common/style.dart';
 import 'package:news_app/data/model/article.dart';
 import 'package:news_app/ui/article_detail_page.dart';
 
@@ -10,8 +9,7 @@ class CardArticle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: primaryColor,
+    return Card(
       child: ListTile(
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
