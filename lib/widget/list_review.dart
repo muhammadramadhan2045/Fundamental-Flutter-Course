@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/data/model/detail_restaurant.dart';
 
 class ListReview extends StatelessWidget {
   const ListReview({
