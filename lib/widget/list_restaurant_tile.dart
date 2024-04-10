@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/pages/restaurant_detail_page.dart';
 import '../common/global.dart' as global;
@@ -28,10 +29,17 @@ class ListRestaurantTile extends StatelessWidget {
       ),
       title: Text(restaurants.name ?? ''),
       subtitle: Text(restaurants.city ?? ''),
-      onTap: () => Navigator.of(context).pushNamed(
-        RestaurantDetailPage.routeName,
-        arguments: restaurants.id ?? '',
-      ),
+      onTap: () {
+        // Navigator.of(context).pushNamed(
+        //   RestaurantDetailPage.routeName,
+        //   arguments: restaurants.id ?? '',
+        // );
+
+        Navigation.intentWithData(
+          RestaurantDetailPage.routeName,
+          restaurants.id ?? '',
+        );
+      },
     );
   }
 }
