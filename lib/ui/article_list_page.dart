@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/data/model/article.dart';
 import 'package:news_app/data/result_state.dart';
 import 'package:news_app/provider/news_provider.dart';
+import 'package:news_app/ui/bookmark_page.dart';
 import 'package:news_app/widget/card_article.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,14 @@ class ArticleListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Articles'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.bookmark),
+            onPressed: () {
+              Navigator.pushNamed(context, BookmarkPage.routeName);
+            },
+          ),
+        ],
       ),
       body: Consumer<NewsProvider>(builder: (context, state, _) {
         if (state.state == ResultState.loading) {

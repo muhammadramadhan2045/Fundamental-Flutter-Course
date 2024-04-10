@@ -28,7 +28,6 @@ class Article {
 }
 
 class Articles {
-  Source? source;
   String? author;
   String? title;
   String? description;
@@ -38,8 +37,7 @@ class Articles {
   String? content;
 
   Articles(
-      {this.source,
-      this.author,
+      {this.author,
       this.title,
       this.description,
       this.url,
@@ -48,7 +46,6 @@ class Articles {
       this.content});
 
   Articles.fromJson(Map<String, dynamic> json) {
-    source = json['source'] != null ? Source.fromJson(json['source']) : null;
     author = json['author'];
     title = json['title'];
     description = json['description'];
@@ -60,9 +57,7 @@ class Articles {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (source != null) {
-      data['source'] = source!.toJson();
-    }
+
     data['author'] = author;
     data['title'] = title;
     data['description'] = description;
