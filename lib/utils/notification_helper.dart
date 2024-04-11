@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:math';
-
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
@@ -76,16 +74,12 @@ class NotificationHelper {
   }
 
   void configureSelectNotificationSubject(String route) {
-    print('Configure dijalnkan pada route $route');
+    if (kDebugMode) {
+      print('Configure dijalnkan pada route $route');
+    }
     selectNotificationSubject.stream.listen(
       (String payload) {
         var data = payload;
-        // // var restaurant = data.restaurants
-        // //     ?.firstWhere(
-        // //       (element) => element.id == payload,
-        // //     )
-        // //     .id;
-        // debugPrint('restaurant id: $restaurant');
         Navigation.intentWithData(route, data);
       },
     );
