@@ -28,7 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  android_alarm_manager_plus: ^4.0.2
+  android_alarm_manager_plus: ^2.0.2
   cupertino_icons: ^1.0.6
   flutter:
     sdk: flutter
@@ -45,16 +45,14 @@ dependencies:
 flutter_native_splash:
   color: "#ffffff"
   image: assets/ic_restaurant.png
-  branding: assets/ic_restaurant.png
-  color_dark: "#121212"
+  color_dark: "#ffffff"
   image_dark: assets/ic_restaurant.png
-  branding_dark: assets/ic_restaurant.png
 
   android_12:
     image: assets/ic_restaurant.png
     icon_background_color: "#ffffff"
     image_dark: assets/ic_restaurant.png
-    icon_background_color_dark: "#121212"
+    icon_background_color_dark: "#ffffff"
 
   web: false
 

@@ -2,23 +2,23 @@ import 'package:intl/intl.dart';
 
 class DateTimeHelper {
   static DateTime format() {
-    // Date and Time Format
+    //Date and Time Format
     final now = DateTime.now();
     final dateFormat = DateFormat('y/M/d');
-    const timeSpecific = "08:00:00";
+    const timeSpecifics = "08:18:00";
     final completeFormat = DateFormat('y/M/d H:m:s');
 
-    // Today Format
+    //today format
     final todayDate = dateFormat.format(now);
-    final todayDateAndTime = "$todayDate $timeSpecific";
-    var resultToday = completeFormat.parseStrict(todayDateAndTime);
+    final todayDateAndTime = "$todayDate $timeSpecifics";
+    var resulToday = completeFormat.parseStrict(todayDateAndTime);
 
-    // Tomorrow Format
-    var formatted = resultToday.add(const Duration(days: 1));
+    //tomorrow format
+    final formatted = resulToday.add(const Duration(days: 1));
     final tomorrowDate = dateFormat.format(formatted);
-    final tomorrowDateAndTime = "$tomorrowDate $timeSpecific";
+    final tomorrowDateAndTime = "$tomorrowDate $timeSpecifics";
     var resultTomorrow = completeFormat.parseStrict(tomorrowDateAndTime);
 
-    return now.isAfter(resultToday) ? resultTomorrow : resultToday;
+    return now.isAfter(resulToday) ? resultTomorrow : resulToday;
   }
 }

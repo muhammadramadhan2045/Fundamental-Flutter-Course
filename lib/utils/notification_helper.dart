@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
@@ -21,7 +22,7 @@ class NotificationHelper {
   Future<void> initNotifications(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
     var initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
+        const AndroidInitializationSettings('app_icon');
 
     var initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
@@ -75,11 +76,17 @@ class NotificationHelper {
   }
 
   void configureSelectNotificationSubject(String route) {
+    print('Configure dijalnkan pada route $route');
     selectNotificationSubject.stream.listen(
       (String payload) {
-        var data = Restaurants.fromJson(jsonDecode(payload));
-        var restaurant = data.id;
-        Navigation.intentWithData(route, restaurant ?? '');
+        var data = payload;
+        // // var restaurant = data.restaurants
+        // //     ?.firstWhere(
+        // //       (element) => element.id == payload,
+        // //     )
+        // //     .id;
+        // debugPrint('restaurant id: $restaurant');
+        Navigation.intentWithData(route, data);
       },
     );
   }

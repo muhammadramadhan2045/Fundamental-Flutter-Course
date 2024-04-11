@@ -4,6 +4,7 @@ import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/result_state.dart';
 import 'package:restaurant_app/pages/restaurant_detail_page.dart';
 import 'package:restaurant_app/pages/restaurant_search_page.dart';
+import 'package:restaurant_app/pages/settings_page.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
 
@@ -22,7 +23,6 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _notificationHelper
         .configureSelectNotificationSubject(RestaurantDetailPage.routeName);
@@ -45,6 +45,12 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
             icon: const Icon(Icons.search),
             onPressed: () {
               Navigator.of(context).pushNamed(RestaurantSearchPage.routeName);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).pushNamed(SettingsPage.routeName);
             },
           ),
         ],
