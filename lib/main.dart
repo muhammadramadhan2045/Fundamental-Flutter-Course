@@ -5,15 +5,20 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/common/navigation.dart';
 import 'package:restaurant_app/data/api/api_service.dart';
 import 'package:restaurant_app/pages/restaurant_detail_page.dart';
+import 'package:restaurant_app/pages/restaurant_favorite_page.dart';
 import 'package:restaurant_app/pages/restaurant_list_page.dart';
 import 'package:restaurant_app/pages/restaurant_search_page.dart';
 import 'package:restaurant_app/pages/settings_page.dart';
+import 'package:restaurant_app/provider/database_provider.dart';
+import 'package:restaurant_app/provider/preferences_provider.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
-import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/provider/scheduling_provider.dart';
 import 'package:restaurant_app/provider/search_restaurant_provider.dart';
 import 'package:restaurant_app/utils/background_service.dart';
+import 'package:restaurant_app/utils/database_helper.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
+import 'package:restaurant_app/utils/preferences_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -44,32 +49,41 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<SchedulingProvider>(
           create: (context) => SchedulingProvider(),
         ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Restaurant App',
-        theme: ThemeData(
-          colorScheme: Theme.of(context).colorScheme.copyWith(
-                primary: primaryColor,
-                secondary: secondaryColor,
-                onPrimary: Colors.black,
-              ),
-          textTheme: myTextTheme,
-          appBarTheme: const AppBarTheme(elevation: 0),
-          useMaterial3: true,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ChangeNotifierProvider<PreferencesProvider>(
+          create: (context) => PreferencesProvider(
+            preferencesHelper: PreferencesHelper(
+              sharedPreferences: SharedPreferences.getInstance(),
+            ),
+          ),
         ),
-        navigatorKey: navigatorKey,
-        initialRoute: RestaurantListPage.routeName,
-        routes: {
-          RestaurantListPage.routeName: (context) => const RestaurantListPage(),
-          RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
-                restaurant:
-                    ModalRoute.of(context)!.settings.arguments as String,
-              ),
-          RestaurantSearchPage.routeName: (context) =>
-              const RestaurantSearchPage(),
-          SettingsPage.routeName: (context) => const SettingsPage(),
+        ChangeNotifierProvider<DatabaseProvider>(
+          create: (context) => DatabaseProvider(
+            databaseHelper: DatabaseHelper(),
+          ),
+        ),
+      ],
+      child: Consumer<PreferencesProvider>(
+        builder: (context, provider, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Restaurant App',
+            theme: provider.themeData,
+            navigatorKey: navigatorKey,
+            initialRoute: RestaurantListPage.routeName,
+            routes: {
+              RestaurantListPage.routeName: (context) =>
+                  const RestaurantListPage(),
+              RestaurantDetailPage.routeName: (context) => RestaurantDetailPage(
+                    restaurant:
+                        ModalRoute.of(context)!.settings.arguments as String,
+                  ),
+              RestaurantSearchPage.routeName: (context) =>
+                  const RestaurantSearchPage(),
+              SettingsPage.routeName: (context) => const SettingsPage(),
+              RestaurantFavoritePage.routeName: (context) =>
+                  const RestaurantFavoritePage(),
+            },
+          );
         },
       ),
     );

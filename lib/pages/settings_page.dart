@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/style.dart';
+import 'package:restaurant_app/provider/preferences_provider.dart';
 import 'package:restaurant_app/provider/scheduling_provider.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -17,33 +19,42 @@ class SettingsPage extends StatelessWidget {
   }
 
   Widget _buildList(BuildContext context) {
-    return ListView(
-      children: [
-        Material(
-          child: ListTile(
-            title: const Text('Dark Mode'),
-            trailing: Switch(
-              value: false,
-              onChanged: (value) => {},
-            ),
-          ),
-        ),
-        Material(
-          child: ListTile(
-            title: const Text('Notification News'),
-            trailing: Consumer<SchedulingProvider>(
-              builder: (context, scheduled, _) {
-                return Switch.adaptive(
-                  value: scheduled.isScheduled,
-                  onChanged: (value) {
-                    scheduled.scheduledRestaurant(value);
+    return Consumer<PreferencesProvider>(
+      builder: (_, provider, __) {
+        return ListView(
+          children: [
+            Material(
+              child: ListTile(
+                title: const Text('Dark Mode'),
+                trailing: Switch(
+                  activeColor: secondaryColor,
+                  value: provider.isDarkTheme,
+                  onChanged: (value) => {
+                    provider.setDarkTheme(value),
                   },
-                );
-              },
+                ),
+              ),
             ),
-          ),
-        )
-      ],
+            Material(
+              child: ListTile(
+                title: const Text('Notification News'),
+                trailing: Consumer<SchedulingProvider>(
+                  builder: (context, scheduled, _) {
+                    return Switch.adaptive(
+                      value: scheduled.isScheduled,
+                      activeColor: secondaryColor,
+                      onChanged: (value) {
+                        scheduled.scheduledRestaurant(value);
+                        provider.setDailyRestaurant(value);
+                      },
+                    );
+                  },
+                ),
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }

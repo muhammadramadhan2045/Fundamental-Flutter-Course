@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/model/detail_restaurant.dart';
 import 'package:restaurant_app/data/result_state.dart';
 import 'package:restaurant_app/provider/detail_restaurant_provider.dart';
@@ -28,7 +29,7 @@ class RestaurantDetailPage extends StatelessWidget {
                 if (state.state == ResultState.loading) {
                   return const Center(
                     child: CircularProgressIndicator(
-                      color: Colors.black,
+                      color: secondaryColor,
                     ),
                   );
                 } else {

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/model/restaurant.dart';
 import 'package:restaurant_app/data/result_state.dart';
 import 'package:restaurant_app/pages/restaurant_detail_page.dart';
+import 'package:restaurant_app/pages/restaurant_favorite_page.dart';
 import 'package:restaurant_app/pages/restaurant_search_page.dart';
 import 'package:restaurant_app/pages/settings_page.dart';
 import 'package:restaurant_app/provider/restaurant_provider.dart';
@@ -53,6 +56,13 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
               Navigator.of(context).pushNamed(SettingsPage.routeName);
             },
           ),
+          //favorite button
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.of(context).pushNamed(RestaurantFavoritePage.routeName);
+            },
+          )
         ],
       ),
       body: Consumer<RestaurantProvider>(
@@ -60,7 +70,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
           if (state.state == ResultState.loading) {
             return const Center(
               child: CircularProgressIndicator(
-                color: Colors.black,
+                color: secondaryColor,
               ),
             );
           } else {
@@ -85,8 +95,12 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                 ),
               );
             } else {
-              return const Center(
-                child: Text('No Data'),
+              return Center(
+                child: Lottie.asset(
+                  'assets/empty.json',
+                  width: 200,
+                  height: 200,
+                ),
               );
             }
           }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/common/style.dart';
 import 'package:restaurant_app/data/result_state.dart';
 import 'package:restaurant_app/provider/search_restaurant_provider.dart';
 import 'package:restaurant_app/widget/list_restaurant_tile.dart';
@@ -33,11 +34,14 @@ class RestaurantSearchPage extends StatelessWidget {
                 searchProvider.searchRestaurant(value);
               },
             ),
+            const SizedBox(height: 8),
             Consumer<SearchRestaurantProvider>(
               builder: (context, state, _) {
                 if (state.state == ResultState.loading) {
                   return const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      color: secondaryColor,
+                    ),
                   );
                 } else {
                   if (state.state == ResultState.hasData) {
